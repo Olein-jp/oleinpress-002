@@ -1,0 +1,27 @@
+sudo: false
+language: php
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+branches:
+  only:
+  - master
+  - develop
+  - "/\\d+\\.\\d+\\.\\d+?.*/"
+php:
+- 7.1
+before_deploy:
+  - npm run build
+  - npm run zip
+  - export RELEASE_FILE=$(ls oleinpress-002.zip)
+deploy:
+  provider: releases
+  api_key:
+    secure: AjCbCFHg8QL31hxdd81t4onv3u9fJJU0cxRjsnS2+zFxYYtNFrB/ogGs0aa+KtyHYchETZudwB/7xt9VUpwaQpPNWTE1/QQPd+6A6YbIpfVLkLwlaMajYoxMRyGDJF4kxPh+0PnMa6kx4xDiNL6390Mj9D6EVNLm9u5U+qUSGqS77yqVEMXfZvykS9V8Cpt3+Sbymrfvc7HC8tDiaFcsYc1Mvh0f8e3c5Z2TPVWWooObZYwChSlh229f+k/j08QxTw0opA8uzAsCqeyu21K2Es04/BmpxuWFpW3hV2App0nsuojQ7ZXN9XYS9Q/WdMxTf1TxZorlx+Z0E2aZfuPernrACOz1hoOYr3Ex9SKOBc4cZ1qSDJmRZqYenuNkMh439+HEo5QbHEJ8Pvp6F4YfQgcU3EJFJj5rM3342ZTCtS//0TG8HCahAKjje9ATgAq9dqDxUlBBwYzBIEkUNuR2jeQjK8vhIaYIePODmnl0jUpAQTwkTI53nDsXhoCHocMpdCr2nWnuwlQDAlhmHsDnoD98UevjHQlYJTLfHeexV+9Dd6W8qcjyzFtUoskHxoAzeJgQJ+NOdwYgddbwiNe+Zg8ghZtt3O7aRze/JEvnYuhIBTkFykDcB+7MVe3QmQQIVDGj9m5Ic2G/UX5yfnMga1k70H0f1WYEKodCCoKuqrE=
+  file: "${RELEASE_FILE}"
+  skip_cleanup: true
+  on:
+    tags: true
+    php: 7.1
+    repo: Olein-jp/oleinpress-002
